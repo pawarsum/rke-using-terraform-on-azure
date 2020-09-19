@@ -7,20 +7,16 @@ terraform {
   }
 }
 
-provider "rke" {
-  log_file = "rke_debug.log"
-  debug    = "true"
-}
-
 module "nodes" {
-  source = "./azure"
+  source   = "./azure"
+  username = var.username
 }
 
 resource "rke_cluster" "cluster" {
   nodes {
     address          = module.nodes.public_ip
     internal_address = module.nodes.internal_ip
-    user             = "kuberoot"
+    user             = var.username
     role             = ["controlplane", "worker", "etcd"]
     ssh_key          = file("~/.ssh/id_rsa")
     docker_socket    = "/var/run/docker.sock"
