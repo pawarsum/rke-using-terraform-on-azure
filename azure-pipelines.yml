@@ -1,0 +1,24 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+  - '*'
+pool:
+    vmImage: 'ubuntu-18.04'
+stages:
+  - stage: 'Provision'
+    displayName: "Provision single Node RKE Cluster"
+    jobs:
+    - job: 'InstallTerraform'
+      displayName: 'Install Terraform'
+      variables:
+      - group: TerraformServicePrincipal
+      steps:
+        - script: |
+           # Exit when any command returns a failure status.
+           set -e
+           terraform version
+
+
