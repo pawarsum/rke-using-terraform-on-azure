@@ -20,5 +20,31 @@ stages:
            # Exit when any command returns a failure status.
            set -e
            terraform version
+           # Write terraform.tfvars.
+           #echo 'resource_group_location = "'$(ResourceGroupLocation)'"' | tee terraform.tfvars
+           # Write backend.tfvars.
+           echo 'resource_group_name = "tf-storage-rg"' | tee backend.tfvars
+           echo 'storage_account_name = "'$(StorageAccountName)'"' | tee -a backend.tfvars
+           echo 'container_name = "tfstate"' | tee -a backend.tfvars
+           echo 'key = "terraform.tfstate"' | tee -a backend.tfvars
+   
+           # Initialize Terraform.
+           terraform init -input=false -backend-config="backend.tfvars"
+           # Apply the Terraform plan.
+           terraform apply -input=false -auto-approve
+
+
+          name: 'RunTerraform'
+          displayName: 'Run Terraform'
+          env:
+              ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+              ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+              ARM_TENANT_ID: $(ARM_TENANT_ID)
+              ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+     
+        - task: PublishPipelineArtifact@1
+          inputs:
+             targetPath: $(System.DefaultWorkingDirectory)/kube_config_cluster.yml
+             artifactName: kubeconfig
 
 

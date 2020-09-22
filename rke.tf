@@ -9,13 +9,8 @@ terraform {
       version = "2.28.0"
     }
   }
-  ##To enable Azure Strorage as terraform backend
-  /*backend "azurerm" {
-    resource_group_name  = "XXXXXXXXXXXXXXXXX"
-    storage_account_name = "XXXXXXXXXXXXXXXXX"
-    container_name       = "XXXXXXXXXXXXXXXXX"
-    key                  = "XXXXXXXXXXXXXXXXX"
-  }*/
+  backend "azurerm" {
+  }
 }
 
 module "nodes" {
