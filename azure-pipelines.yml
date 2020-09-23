@@ -21,7 +21,7 @@ stages:
            set -e
            terraform version
            # Write terraform.tfvars.
-           echo 'publickey = "'$(publickey)'"' | tee $(System.DefaultWorkingDirectory)/.ssh/id_rsa.pub
+           echo 'publickey = "'$(publickey)'"' | tee terraform.tfvars
            # Write backend.tfvars.
            echo 'resource_group_name = "'$(ResourceGroupName)'"' | tee backend.tfvars
            echo 'storage_account_name = "'$(StorageAccountName)'"' | tee -a backend.tfvars

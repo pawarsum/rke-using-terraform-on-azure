@@ -16,6 +16,7 @@ terraform {
 module "nodes" {
   source   = "./azure"
   username = var.username
+  publickey= var.publickey
 }
 
 resource "rke_cluster" "cluster" {
@@ -24,7 +25,7 @@ resource "rke_cluster" "cluster" {
     internal_address = module.nodes.internal_ip
     user             = var.username
     role             = ["controlplane", "worker", "etcd"]
-    ssh_key          = file("~/.ssh/id_rsa")
+    ssh_key          = var.publickey
     docker_socket    = "/var/run/docker.sock"
   }
 }

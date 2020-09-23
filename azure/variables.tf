@@ -26,6 +26,10 @@ variable "username" {
   }
 }
 
+variable "publickey" {
+  type = string
+  description = "public key to access virtual machine"
+}
 variable "environment_setup" {
   type    = string
   default = "pre_rke_setup.bash"
